@@ -1,17 +1,19 @@
 import { defineStore } from "pinia";
 
-export const cityWeatherStore = defineStore({
-  id: "cityWeather",
-  state: () => ({
-    city: {
-      name: "Paris",
-      latitude: 48.85661,
-      longitude: 2.3522219,
-      currentWeather: {},
-    },
-    listOfCities: [],
-    error: "",
-  }),
+export const useCityWeatherStore = defineStore("cityWeather", {
+  state: () => {
+    return {
+      city: {
+        name: "",
+        latitude: 0,
+        longitude: 0,
+        currentWeather: {},
+      },
+      listOfCities: [],
+      listOfFavoriteCities: [],
+      error: "",
+    };
+  },
   getters: {
     getCity: (state) => {
       return state.city;
@@ -24,6 +26,9 @@ export const cityWeatherStore = defineStore({
     },
   },
   actions: {
+    updateCity(coords) {
+      this.city = coords;
+    },
     async currentWeather({ latitude, longitude }) {
       try {
         const response = await fetch(
@@ -34,12 +39,13 @@ export const cityWeatherStore = defineStore({
         this.error = e;
       }
     },
-    async geocoding({ name }) {
+    async geocoding(city) {
       try {
         const response = await fetch(
-          `https://geocoding-api.open-meteo.com/v1/search?name=${name}`
+          `https://geocoding-api.open-meteo.com/v1/search?name=${city}`
         );
-        this.listOfCities.push(response?.results);
+        const data = await response.json();
+        this.listOfCities = data.results;
       } catch (e) {
         this.error = e;
       }

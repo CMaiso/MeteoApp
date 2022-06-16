@@ -2,6 +2,7 @@ import { onUnmounted, onMounted, ref } from "vue";
 
 export function geolocation() {
   const coords = ref({ latitude: 0, longitude: 0 });
+  // coordinates of Paris
   const defaultCoords = { latitude: 48.85661, longitude: 2.3522219 };
   const isSupported = "navigator" in window && "geolocation" in navigator;
 
