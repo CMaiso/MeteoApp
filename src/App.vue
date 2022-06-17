@@ -13,15 +13,16 @@ const currentPosition = computed(() => ({
 }));
 
 watch(coords, (value) => {
-  store.currentWeather(currentPosition);
-  console.log("pouet");
+  store.updateCityCoordinates(currentPosition.value);
+  store.currentWeather(currentPosition.value);
 });
 </script>
 
 <template>
   <div>
-    <h1>{{ store.city.name }}'s Weather Today</h1>
-    {{ currentPosition }}
+    <h1>Your localisation Weather Today</h1>
+    // TODO: Condition rendering name
+    {{ store.city }}
     <SearchBar />
   </div>
 </template>

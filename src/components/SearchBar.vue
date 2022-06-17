@@ -6,10 +6,16 @@ const store = useCityWeatherStore();
 
 const input = ref("");
 const filteredCitiesList = computed(() => {
-  return store.getListOfCities.filter((city) =>
+  return store?.getListOfCities.filter((city) =>
     city.name.toLowerCase().includes(input.value.toLowerCase())
   );
 });
+
+const onClick = (city) => {
+  store.updateCity(city);
+  store.currentWeather(city);
+  store.cleanListOfCities();
+};
 
 watch(input, (value) => {
   store.geocoding(input.value);
@@ -18,7 +24,12 @@ watch(input, (value) => {
 
 <template>
   <input type="text" v-model="input" placeholder="Search City..." />
-  <div class="item fruit" v-for="city in filteredCitiesList" :key="city.id">
+  <div
+    class="item fruit"
+    v-for="city in filteredCitiesList"
+    :key="city.id"
+    @click="onClick(city)"
+  >
     <p>{{ city.name }}</p>
   </div>
   <div class="item error" v-if="input && !filteredCitiesList.length">
