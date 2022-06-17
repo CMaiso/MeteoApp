@@ -12,6 +12,11 @@ const currentPosition = computed(() => ({
   long: coords.value.longitude,
 }));
 
+const onClick = (city) => {
+  console.log(city);
+  store.setNewFavoriteCity(city);
+};
+
 watch(coords, (value) => {
   store.updateCityCoordinates(currentPosition.value);
   store.currentWeather(currentPosition.value);
@@ -23,6 +28,7 @@ watch(coords, (value) => {
     <h1>Your localisation Weather Today</h1>
     // TODO: Condition rendering name
     {{ store.city }}
+    <Button @click="onClick(store.city)">Ajouter à la liste de favoris</Button>
     <SearchBar />
   </div>
 </template>

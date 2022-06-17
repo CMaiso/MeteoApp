@@ -20,6 +20,9 @@ export const useCityWeatherStore = defineStore("cityWeather", {
     getError: (state) => {
       return state.error;
     },
+    getFavoriteCities: (state) => {
+      return state.listOfFavoriteCities;
+    },
   },
   actions: {
     updateCity(newCity) {
@@ -33,6 +36,13 @@ export const useCityWeatherStore = defineStore("cityWeather", {
         coords: { latitude: 48.85661, longitude: 2.3522219 },
         name: "Paris",
       });
+    },
+    setNewFavoriteCity(newCity) {
+      this.listOfFavoriteCities.push(newCity);
+      window.localStorage.setItem(
+        "favoriteCities",
+        JSON.stringify(this.listOfFavoriteCities)
+      );
     },
     cleanListOfCities() {
       return (this.listOfCities = []);
