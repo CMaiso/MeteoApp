@@ -1,8 +1,9 @@
 <script setup>
 import { geolocation } from "./composables/geolocation";
 import { computed, watch } from "vue";
-import SearchBar from "./components/SearchBar.vue";
 import { useCityWeatherStore } from "./stores/cityWeather";
+import SearchBar from "./components/SearchBar.vue";
+import FavoriteCities from "./components/FavoriteCities.vue";
 
 const store = useCityWeatherStore();
 
@@ -13,7 +14,6 @@ const currentPosition = computed(() => ({
 }));
 
 const onClick = (city) => {
-  console.log(city);
   store.setNewFavoriteCity(city);
 };
 
@@ -27,9 +27,12 @@ watch(coords, (value) => {
   <div>
     <h1>Your localisation Weather Today</h1>
     // TODO: Condition rendering name
-    {{ store.city }}
-    <Button @click="onClick(store.city)">Ajouter à la liste de favoris</Button>
+    {{ store.currentCity }}
+    <button @click="onClick(store.currentCity)">
+      Ajouter à la liste de favoris
+    </button>
     <SearchBar />
+    <FavoriteCities />
   </div>
 </template>
 

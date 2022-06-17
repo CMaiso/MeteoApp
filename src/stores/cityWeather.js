@@ -3,49 +3,60 @@ import { defineStore } from "pinia";
 export const useCityWeatherStore = defineStore("cityWeather", {
   state: () => {
     return {
-      city: {},
-      listOfCities: [],
-      listOfFavoriteCities: [],
+      currentCity: {},
+      cities: [],
+      favoriteCites: [],
       error: "",
       message: "",
     };
   },
   getters: {
     getCity: (state) => {
-      return state.city;
+      return state.currentCity;
     },
-    getListOfCities: (state) => {
-      return state.listOfCities;
+    getCities: (state) => {
+      return state.cities;
     },
     getError: (state) => {
       return state.error;
     },
-    getFavoriteCities: (state) => {
-      return state.listOfFavoriteCities;
-    },
-  },
-  actions: {
-    updateCity(newCity) {
-      return (this.city = newCity);
-    },
-    updateCityCoordinates(coords) {
-      return (this.city = { ...this.city, coords });
-    },
-    setDefaultCoords() {
-      return (this.city = {
+    defaultCoords() {
+      return (this.currentCity = {
         coords: { latitude: 48.85661, longitude: 2.3522219 },
         name: "Paris",
       });
     },
+    cleanCities() {
+      return (this.cities = []);
+    },
+  },
+  actions: {
+    updateCity(newCity) {
+      return (this.currentCity = newCity);
+    },
+    updateCityCoordinates(coords) {
+      return (this.currentCity = { ...this.currentCity, coords });
+    },
+    setFavoritesCities() {
+      const cities = JSON.parse(localStorage.getItem("favoriteCities"));
+      return (this.favoriteCites = cities);
+    },
     setNewFavoriteCity(newCity) {
-      this.listOfFavoriteCities.push(newCity);
+      this.favoriteCites.push(newCity);
       window.localStorage.setItem(
         "favoriteCities",
-        JSON.stringify(this.listOfFavoriteCities)
+        JSON.stringify(this.favoriteCites)
       );
     },
-    cleanListOfCities() {
-      return (this.listOfCities = []);
+    removeFavoriteCity(city) {
+      const index = this.favoriteCites.findIndex((favoriteCity) => {
+        return favoriteCity.name === city.name;
+      });
+      this.favoriteCites.splice(index, 1);
+      window.localStorage.setItem(
+        "favoriteCities",
+        JSON.stringify(this.favoriteCites)
+      );
     },
     async currentWeather({ latitude, longitude }) {
       try {
@@ -53,8 +64,10 @@ export const useCityWeatherStore = defineStore("cityWeather", {
           `https://api.open-meteo.com/v1/forecast?latitude=${latitude}&longitude=${longitude}&current_weather=true`
         );
         const data = await response.json();
-        console.log(data);
-        this.city = { ...this.city, currentWeather: data?.current_weather };
+        this.currentCity = {
+          ...this.currentCity,
+          currentWeather: data?.current_weather,
+        };
       } catch (e) {
         this.error = e;
       }
@@ -65,7 +78,7 @@ export const useCityWeatherStore = defineStore("cityWeather", {
           `https://geocoding-api.open-meteo.com/v1/search?name=${city}`
         );
         const data = await response.json();
-        this.listOfCities = data.results;
+        this.cities = data.results;
       } catch (e) {
         this.error = e;
       }

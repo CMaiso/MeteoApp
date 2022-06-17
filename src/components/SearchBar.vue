@@ -6,7 +6,7 @@ const store = useCityWeatherStore();
 
 const input = ref("");
 const filteredCitiesList = computed(() => {
-  return store?.getListOfCities.filter((city) =>
+  return store?.getCities.filter((city) =>
     city.name.toLowerCase().includes(input.value.toLowerCase())
   );
 });
@@ -14,7 +14,7 @@ const filteredCitiesList = computed(() => {
 const onClick = (city) => {
   store.updateCity(city);
   store.currentWeather(city);
-  store.cleanListOfCities();
+  store.cleanCities();
 };
 
 watch(input, (value) => {
@@ -24,17 +24,14 @@ watch(input, (value) => {
 
 <template>
   <input type="text" v-model="input" placeholder="Search City..." />
-  <div
+  <ul
     class="item fruit"
     v-for="city in filteredCitiesList"
     :key="city.id"
     @click="onClick(city)"
   >
-    <p>{{ city.name }}</p>
-  </div>
-  <div class="item error" v-if="input && !filteredCitiesList.length">
-    <p>No results found!</p>
-  </div>
+    <li>{{ city.name }}</li>
+  </ul>
 </template>
 
 <style></style>

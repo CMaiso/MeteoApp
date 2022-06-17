@@ -11,11 +11,8 @@ export function geolocation() {
     if (isSupported) {
       //TODO: add case when user refuse localisation
       watcher = navigator.geolocation.watchPosition(
-        (position) => (coords.value = position.coords),
-        () => (coords.value = defaultCoords)
+        (position) => (coords.value = position.coords)
       );
-    } else {
-      store.setDefaultCoords();
     }
   });
   onUnmounted(() => {
