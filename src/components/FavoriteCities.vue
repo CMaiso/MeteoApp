@@ -20,7 +20,7 @@ onMounted(() => {
 
 <template>
   <ul class="">
-    <li v-for="city in store.favoriteCites" :key="city.id">
+    <li v-for="city in store.favoriteCities" :key="city.id">
       <p @click="onClick(city)">{{ city.name }}</p>
       <button @click="onDelete(city)">X</button>
     </li>

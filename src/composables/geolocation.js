@@ -1,9 +1,7 @@
 import { onUnmounted, onMounted, ref } from "vue";
-import { useCityWeatherStore } from "../stores/cityWeather";
 
 export function geolocation() {
   const coords = ref({ latitude: 0, longitude: 0 });
-  const store = useCityWeatherStore();
   const isSupported = "navigator" in window && "geolocation" in navigator;
 
   let watcher = null;

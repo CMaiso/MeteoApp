@@ -6,7 +6,7 @@ const store = useCityWeatherStore();
 
 const input = ref("");
 const filteredCitiesList = computed(() => {
-  return store?.getCities.filter((city) =>
+  return store.getCities?.filter((city) =>
     city.name.toLowerCase().includes(input.value.toLowerCase())
   );
 });
@@ -14,7 +14,7 @@ const filteredCitiesList = computed(() => {
 const onClick = (city) => {
   store.updateCity(city);
   store.currentWeather(city);
-  store.cleanCities();
+  store.cleanCities;
 };
 
 watch(input, (value) => {
