@@ -7,9 +7,9 @@ export function geolocation() {
   let watcher = null;
   onMounted(() => {
     if (isSupported) {
-      //TODO: add case when user refuse localisation
-      watcher = navigator.geolocation.watchPosition(
-        (position) => (coords.value = position.coords)
+      watcher = navigator.geolocation.getCurrentPosition(
+        (position) => (coords.value = position.coords),
+        (error) => console.warn(`ERROR(${err.code}): ${err.message}`)
       );
     }
   });

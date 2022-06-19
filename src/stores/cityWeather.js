@@ -37,9 +37,6 @@ export const useCityWeatherStore = defineStore("cityWeather", {
     updateCity(newCity) {
       return (this.currentCity = newCity);
     },
-    updateCityCoordinates(coords) {
-      return (this.currentCity = { ...this.currentCity, coords });
-    },
     setFavoritesCities() {
       const cities = JSON.parse(localStorage.getItem("favoriteCities"));
       if (cities) return (this.favoriteCities = cities);

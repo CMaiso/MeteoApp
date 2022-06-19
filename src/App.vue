@@ -9,8 +9,11 @@ const store = useCityWeatherStore();
 
 const { coords } = geolocation();
 const currentPosition = computed(() => ({
-  latitude: coords.value.latitude,
-  longitude: coords.value.longitude,
+  coords: {
+    latitude: coords.value.latitude,
+    longitude: coords.value.longitude,
+  },
+  name: "Your position",
 }));
 
 const onClick = (city) => {
@@ -24,9 +27,9 @@ const onClick = (city) => {
   store.setNewFavoriteCity(city);
 };
 
-watch(coords, (value) => {
-  store.updateCityCoordinates(currentPosition.value);
-  store.currentWeather(currentPosition.value);
+watch(coords, () => {
+  store.updateCity(currentPosition.value);
+  store.currentWeather(currentPosition.value.coords);
 });
 </script>
 
