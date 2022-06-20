@@ -10,13 +10,15 @@ const weather = computed(() => {
   return weatherCodes[weatherCode];
 });
 const temperature = computed(() => {
-  return `${store.currentCity?.current_weather?.temperature}°C`;
+  const degrees = store.currentCity?.current_weather?.temperature;
+  if (!degrees) return;
+  return `${degrees}°C`;
 });
 </script>
 
 <template>
   <div class="text-center">
-    <p class="text-xl mb-1">{{ temperature }}</p>
+    <p v-if="temperature" class="text-xl mb-1">{{ temperature }}</p>
     <p class="text-lg">{{ weather }}</p>
   </div>
 </template>

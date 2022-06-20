@@ -18,12 +18,6 @@ export const useCityWeatherStore = defineStore("cityWeather", {
     getfavoriteCities: (state) => {
       return state.favoriteCities;
     },
-    defaultCoords() {
-      return (this.currentCity = {
-        coords: { latitude: 48.85661, longitude: 2.3522219 },
-        name: "Paris",
-      });
-    },
     cleanCities() {
       return (this.cities = []);
     },

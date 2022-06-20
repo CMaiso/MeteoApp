@@ -20,6 +20,11 @@ const currentPosition = computed(() => {
   };
 });
 
+const cityTitle = computed(() => {
+  if (!store.currentCity.name) return "No position found";
+  return store.currentCity.name;
+});
+
 const isYourGeolocation = computed(() => {
   return store.currentCity.name === "Your position";
 });
@@ -48,7 +53,7 @@ watch(coords, () => {
     <div class="flex justify-center gap-4 mt-4 flex-wrap">
       <div class="flex flex-col rounded-xl bg-slate-50 p-8 text-left shadow-lg">
         <h2 class="text-2xl text-center mb-2 font-semibold">
-          📍 {{ store.currentCity.name }}
+          📍 {{ cityTitle }}
         </h2>
         <Weather />
         <button
