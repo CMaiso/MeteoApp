@@ -1,7 +1,7 @@
 import { onUnmounted, onMounted, ref } from "vue";
 
 export function geolocation() {
-  const coords = ref({ latitude: 0, longitude: 0 });
+  const coords = ref({});
   const isSupported = "navigator" in window && "geolocation" in navigator;
 
   let watcher = null;
@@ -9,7 +9,7 @@ export function geolocation() {
     if (isSupported) {
       watcher = navigator.geolocation.getCurrentPosition(
         (position) => (coords.value = position.coords),
-        (error) => console.warn(`ERROR(${err.code}): ${err.message}`)
+        (error) => console.warn(`ERROR(${error.code}): ${error.message}`)
       );
     }
   });

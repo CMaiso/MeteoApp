@@ -2,28 +2,42 @@
 import { geolocation } from "./composables/geolocation";
 import { computed, watch } from "vue";
 import { useCityWeatherStore } from "./stores/cityWeather";
+import { isAnEmptyObject } from "./helpers/object";
 import SearchBar from "./components/SearchBar.vue";
 import FavoriteCities from "./components/FavoriteCities.vue";
-import WeatherIcon from "./components/Weather.vue";
+import Weather from "./components/Weather.vue";
 
 const store = useCityWeatherStore();
 
 const { coords } = geolocation();
-const currentPosition = computed(() => ({
-  coords: {
-    latitude: coords.value.latitude,
-    longitude: coords.value.longitude,
-  },
-  name: "Your position",
-}));
+const currentPosition = computed(() => {
+  if (isAnEmptyObject(coords.value))
+    return {
+      coords: {
+        latitude: store.defaultCoords?.coords?.latitude,
+        longitude: store.defaultCoords?.coords?.longitude,
+      },
+      name: store.defaultCoords.name,
+    };
+  return {
+    coords: {
+      latitude: coords.value.latitude,
+      longitude: coords.value.longitude,
+    },
+    name: "Your position",
+  };
+});
+
+const isYourGeolocation = computed(() => {
+  return store.currentCity.name === "Your position";
+});
 
 const onClick = (city) => {
   const isAlreadyInTheList = store.favoriteCities?.find((favoriteCity) => {
     return favoriteCity.name === city.name;
   });
-  const isAnEmptyObject = Object.entries(city).length === 0;
 
-  if (isAlreadyInTheList || isAnEmptyObject) return;
+  if (isAlreadyInTheList || isAnEmptyObject(city)) return;
 
   store.setNewFavoriteCity(city);
 };
@@ -36,15 +50,24 @@ watch(coords, () => {
 
 <template>
   <div>
-    <h2>Weather Today</h2>
-    <h1>{{ store.currentCity.name }}</h1>
-    <WeatherIcon />
-    {{ store.currentCity }}
-    <button @click="onClick(store.currentCity)">
-      Ajouter à la liste de favoris
-    </button>
+    <h1 class="text-4xl font-bold text-center">🌈 Weather Application 🌈</h1>
+    <div class="flex justify-center gap-4 mt-4">
+      <div class="flex flex-col rounded-xl bg-slate-50 p-8 text-left shadow-lg">
+        <h2 class="text-2xl text-center mb-2 font-semibold">
+          📍 {{ store.currentCity.name }}
+        </h2>
+        <Weather />
+        <button
+          v-if="!isYourGeolocation"
+          class="mt-2 rounded-md border border-transparent bg-orange-500 py-2 px-4 text-sm font-medium text-white hover:bg-bg-orange-300"
+          @click="onClick(store.currentCity)"
+        >
+          Add to favorite cities list
+        </button>
+      </div>
+      <FavoriteCities />
+    </div>
     <SearchBar />
-    <FavoriteCities />
   </div>
 </template>
 

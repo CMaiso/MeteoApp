@@ -10,13 +10,13 @@ const weather = computed(() => {
   return weatherCodes[weatherCode];
 });
 const temperature = computed(() => {
-  return store.currentCity?.current_weather?.temperature;
+  return `${store.currentCity?.current_weather?.temperature}°C`;
 });
 </script>
 
 <template>
-  <div>
-    <p>{{ temperature }}</p>
-    <p>{{ weather }}</p>
+  <div class="text-center">
+    <p class="text-xl mb-1">{{ temperature }}</p>
+    <p class="text-lg">{{ weather }}</p>
   </div>
 </template>
