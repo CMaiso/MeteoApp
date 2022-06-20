@@ -30,12 +30,14 @@ onMounted(() => {
         :key="city.id"
       >
         <button
-          class="mr-1 focus:outline-none rounded-md border border-transparent bg-orange-500 py-1 px-2 text-sm text-white hover:bg-bg-orange-300"
+          class="mr-1 hover:bg-orange-400 focus:outline-none rounded-md border border-transparent bg-orange-500 py-1 px-2 text-sm text-white hover:bg-bg-orange-300"
           @click="onDelete(city)"
         >
           X
         </button>
-        <p @click="onClick(city)">{{ city.name }}</p>
+        <p class="hover:text-orange-500 hover:underline" @click="onClick(city)">
+          {{ city.name }}
+        </p>
       </li>
     </ul>
   </div>

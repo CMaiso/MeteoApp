@@ -24,7 +24,7 @@ watch(input, (value) => {
 
 <template>
   <div class="flex flex-col items-center mt-8">
-    <h3 class="text-2xl">🔎 Search a new City</h3>
+    <h3 class="text-2xl">🔎 Search a new City Weather</h3>
     <input
       type="text"
       class="outline-none mt-2 rounded-md border border-gray-100 bg-gray-100 px-4 py-2 placeholder-gray-600 focus:border-gray-500 focus:bg-white focus:placeholder-gray-500"
@@ -36,7 +36,13 @@ watch(input, (value) => {
       :key="city.id"
       @click="onClick(city)"
     >
-      <li>{{ city.name }}</li>
+      <li>
+        <button
+          class="my-1 hover:bg-orange-400 focus:outline-none rounded-md border border-transparent bg-orange-500 py-1 px-2 text-sm text-white hover:bg-bg-orange-300"
+        >
+          {{ city.name }}
+        </button>
+      </li>
     </ul>
   </div>
 </template>

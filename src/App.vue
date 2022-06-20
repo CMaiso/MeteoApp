@@ -11,14 +11,6 @@ const store = useCityWeatherStore();
 
 const { coords } = geolocation();
 const currentPosition = computed(() => {
-  if (isAnEmptyObject(coords.value))
-    return {
-      coords: {
-        latitude: store.defaultCoords?.coords?.latitude,
-        longitude: store.defaultCoords?.coords?.longitude,
-      },
-      name: store.defaultCoords.name,
-    };
   return {
     coords: {
       latitude: coords.value.latitude,
@@ -50,8 +42,10 @@ watch(coords, () => {
 
 <template>
   <div>
-    <h1 class="text-4xl font-bold text-center">🌈 Weather Application 🌈</h1>
-    <div class="flex justify-center gap-4 mt-4">
+    <h1 class="text-4xl mt-3 font-bold text-center">
+      🌈 Weather Application 🌈
+    </h1>
+    <div class="flex justify-center gap-4 mt-4 flex-wrap">
       <div class="flex flex-col rounded-xl bg-slate-50 p-8 text-left shadow-lg">
         <h2 class="text-2xl text-center mb-2 font-semibold">
           📍 {{ store.currentCity.name }}
@@ -59,10 +53,10 @@ watch(coords, () => {
         <Weather />
         <button
           v-if="!isYourGeolocation"
-          class="mt-2 rounded-md border border-transparent bg-orange-500 py-2 px-4 text-sm font-medium text-white hover:bg-bg-orange-300"
+          class="mt-2 hover:bg-orange-400 rounded-md border border-transparent bg-orange-500 py-2 px-4 text-sm font-medium text-white hover:bg-bg-orange-300"
           @click="onClick(store.currentCity)"
         >
-          Add to favorite cities list
+          Add to my favorite cities list
         </button>
       </div>
       <FavoriteCities />
