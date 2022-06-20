@@ -4,6 +4,7 @@ import { computed, watch } from "vue";
 import { useCityWeatherStore } from "./stores/cityWeather";
 import SearchBar from "./components/SearchBar.vue";
 import FavoriteCities from "./components/FavoriteCities.vue";
+import WeatherIcon from "./components/Weather.vue";
 
 const store = useCityWeatherStore();
 
@@ -35,8 +36,9 @@ watch(coords, () => {
 
 <template>
   <div>
-    <h1>Your localisation Weather Today</h1>
-    // TODO: Condition rendering name
+    <h2>Weather Today</h2>
+    <h1>{{ store.currentCity.name }}</h1>
+    <WeatherIcon />
     {{ store.currentCity }}
     <button @click="onClick(store.currentCity)">
       Ajouter à la liste de favoris

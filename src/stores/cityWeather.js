@@ -66,7 +66,7 @@ export const useCityWeatherStore = defineStore("cityWeather", {
         const data = await response.json();
         this.currentCity = {
           ...this.currentCity,
-          currentWeather: data?.current_weather,
+          current_weather: data?.current_weather,
         };
       } catch (e) {
         this.error = e;
