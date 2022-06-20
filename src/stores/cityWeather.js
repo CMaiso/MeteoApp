@@ -6,14 +6,9 @@ export const useCityWeatherStore = defineStore("cityWeather", {
       currentCity: {},
       cities: [],
       favoriteCities: [],
-      error: "",
-      message: "",
     };
   },
   getters: {
-    getCity: (state) => {
-      return state.currentCity;
-    },
     getCities: (state) => {
       return state.cities;
     },
